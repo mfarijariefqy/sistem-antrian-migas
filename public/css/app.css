@@ -10929,5 +10929,25 @@ a.text-dark:focus {
     color: inherit;
     border-color: #dee2e6;
   }
+
+  .btn-kuning {
+    background-color: #fee50f;
+    color: black;
+    border: none;
+}
+
+  .btn-kuning:hover {
+      background-color: #e6cf00;
+      color: black;
+  }
+
+  .link-kuning {
+      color: #fee50f !important;
+  }
+
+  .link-kuning:hover {
+      color: #e6cf00 !important;
+      text-decoration: underline;
+  }
 }
 

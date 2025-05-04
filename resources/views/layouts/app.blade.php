@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'PPSDM MIGAS') }}</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -18,13 +18,51 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link href="{{ asset('adminlte/plugins/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
+  
+    <!-- AdminLTE -->
+    <link href="{{ asset('adminlte/dist/css/adminlte.min.css') }}" rel="stylesheet">
+
+    <!-- Bootstrap 4 -->
+    <link href="{{ asset('adminlte/plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <!-- <link href="{{ asset('css/custom-adminlte.css') }}" rel="stylesheet"> -->
+    <link rel="icon" type="image/png" href="{{ asset('images/esdm.svg') }}">
+    <style>
+        .nav-link.white {
+            color: white !important;
+        }
+        .btn-kuning {
+    background-color: #fee50f;
+    color: black;
+    border: none;
+}
+
+  .btn-kuning:hover {
+      background-color: #e6cf00;
+      color: black;
+  }
+
+  .link-kuning {
+      color: #fee50f !important;
+  }
+
+  .link-kuning:hover {
+      color: #e6cf00 !important;
+      text-decoration: underline;
+  }
+    </style>
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+                <a class="navbar-brand">
+                <img src="{{ asset('images/esdm.svg') }}" width="35" height="35" alt="Gambar">
+                <span class="brand-text font-weight-light">{{ config('app.name', 'PPSDM MIGAS') }}</span>
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -40,11 +78,11 @@
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
                         @guest
-                            <li class="nav-item">
+                            <li class="nav-item withe">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                             </li>
                             @if (Route::has('register'))
-                                <li class="nav-item">
+                                <li class="nav-item white">
                                     <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                                 </li>
                             @endif
