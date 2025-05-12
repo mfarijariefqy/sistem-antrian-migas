@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Peserta;
+use Yajra\DataTables\Facades\DataTables;
 
 class PesertaController extends Controller
 {
@@ -19,6 +20,25 @@ class PesertaController extends Controller
         $pesertas = Peserta::all();
         return view('peserta.index', compact('pesertas'));
     }
+
+    public function getData(Request $request)
+{
+    $peserta = Peserta::select(['id', 'name', 'email', 'address', 'no_hp']);
+
+    return DataTables::of($peserta)
+        ->addColumn('aksi', function ($row) {
+            $editBtn = '<button class="btn btn-warning btn-sm btn-edit" data-id="' . $row->id . '">Edit</button>';
+            $deleteForm = '
+                <form action="' . route('peserta.destroy', $row->id) . '" method="POST" class="d-inline">
+                    ' . csrf_field() . method_field('DELETE') . '
+                    <button class="btn btn-danger btn-sm">Hapus</button>
+                </form>';
+            return $editBtn . ' ' . $deleteForm;
+        })
+        ->rawColumns(['aksi']) // penting supaya HTML-nya tidak di-escape
+        ->make(true);
+}
+
 
     public function create()
     {

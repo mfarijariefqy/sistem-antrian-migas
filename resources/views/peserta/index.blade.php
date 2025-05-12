@@ -15,23 +15,6 @@
                 <th>Aksi</th>
             </tr>
         </thead>
-        <tbody>
-            @foreach($pesertas as $peserta)
-            <tr data-id="{{ $peserta->id }}">
-                <td>{{ $peserta->name }}</td>
-                <td>{{ $peserta->email }}</td>
-                <td>{{ $peserta->address }}</td>
-                <td>{{ $peserta->no_hp }}</td>
-                <td>
-                    <button class="btn btn-warning btn-sm btn-edit" data-id="{{ $peserta->id }}">Edit</button>
-                    <form action="{{ route('peserta.destroy', $peserta->id) }}" method="POST" class="d-inline">
-                        @csrf @method('DELETE')
-                        <button class="btn btn-danger btn-sm">Hapus</button>
-                    </form>
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
     </table>
 </div>
 
@@ -117,7 +100,7 @@
 <script>
     // Load data ke dalam modal edit
     $(document).ready(function () {
-        $('.btn-edit').on('click', function () {
+        $(document).on('click', '.btn-edit', function () {
             let id = $(this).data('id');
             console.log("Peserta ID: " + id);  // Debug ID peserta
 
@@ -134,6 +117,19 @@
                 // Menampilkan modal
                 $('#editModal').modal('show');
             });
+        });
+
+        $('#pesertaTable').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: '{{ route("peserta.data") }}',
+            columns: [
+                { data: 'name', name: 'name' },
+                { data: 'email', name: 'email' },
+                { data: 'address', name: 'address' },
+                { data: 'no_hp', name: 'no_hp' },
+                { data: 'aksi', name: 'aksi', orderable: false, searchable: false }
+            ]
         });
 
         

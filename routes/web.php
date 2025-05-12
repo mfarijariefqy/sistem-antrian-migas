@@ -24,7 +24,7 @@ Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'inde
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-
+Route::get('/peserta/data', [App\Http\Controllers\PesertaController::class, 'getData'])->name('peserta.data');
 Route::get('/peserta', [App\Http\Controllers\PesertaController::class, 'index'])->name('peserta.index');
 Route::get('/peserta/create', [App\Http\Controllers\PesertaController::class, 'create'])->name('peserta.create');
 Route::post('/peserta', [App\Http\Controllers\PesertaController::class, 'store'])->name('peserta.store');
