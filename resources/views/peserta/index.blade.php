@@ -119,7 +119,7 @@
             });
         });
 
-        $('#pesertaTable').DataTable({
+        var table = $('#pesertaTable').DataTable({
             processing: true,
             serverSide: true,
             ajax: '{{ route("peserta.data") }}',
@@ -130,6 +130,21 @@
                 { data: 'no_hp', name: 'no_hp' },
                 { data: 'aksi', name: 'aksi', orderable: false, searchable: false }
             ]
+        });
+
+       // Set interval untuk pindah halaman setiap 10 detik
+        var currentPage = 0;
+
+        table.on('draw', function () {
+            // Mengambil info halaman dari DataTable
+            var pageLength = table.page.info().length; // Jumlah data per halaman
+            var totalPages = Math.ceil(table.page.info().recordsTotal / pageLength); // Total halaman
+
+            // Menentukan halaman berikutnya setiap 10 detik
+            setInterval(function() {
+                currentPage = (currentPage + 1) % totalPages; // Menghitung halaman berikutnya
+                table.page(currentPage).draw('page'); // Pindah ke halaman berikutnya
+            }, 10000); // 10 detik
         });
 
         
