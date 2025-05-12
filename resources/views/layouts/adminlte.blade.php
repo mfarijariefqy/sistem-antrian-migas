@@ -42,5 +42,6 @@
 
 <!-- AdminLTE -->
 <script src="{{ asset('adminlte/dist/js/adminlte.min.js') }}"></script>
+@stack('scripts')
 </body>
 </html>

@@ -23,3 +23,11 @@ Auth::routes();
 Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+Route::get('/peserta', [App\Http\Controllers\PesertaController::class, 'index'])->name('peserta.index');
+Route::get('/peserta/create', [App\Http\Controllers\PesertaController::class, 'create'])->name('peserta.create');
+Route::post('/peserta', [App\Http\Controllers\PesertaController::class, 'store'])->name('peserta.store');
+Route::get('/peserta/{id}/edit', [App\Http\Controllers\PesertaController::class, 'edit'])->name('peserta.edit');
+Route::put('/peserta/{id}', [App\Http\Controllers\PesertaController::class, 'update'])->name('peserta.update');
+Route::delete('/peserta/{id}', [App\Http\Controllers\PesertaController::class, 'destroy'])->name('peserta.destroy');
