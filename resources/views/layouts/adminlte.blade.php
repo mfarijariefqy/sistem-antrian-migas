@@ -21,7 +21,40 @@
     <link rel="stylesheet" href="{{ asset('adminlte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('adminlte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('adminlte/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+<style>
+table.dataTable {
+    width: 100% !important;  /* Memastikan tabel memanfaatkan 100% lebar kontainer */
+}
 
+.dataTables_wrapper {
+    width: 100% !important;  /* Mengatur lebar wrapper DataTables */
+    overflow-x: auto;  /* Jika diperlukan, menambahkan scroll horizontal */
+}
+<style>
+        .nav-link.white {
+            color: white !important;
+        }
+        .btn-kuning {
+    background-color: #fee50f;
+    color: black;
+    border: none;
+}
+
+  .btn-kuning:hover {
+      background-color: #e6cf00;
+      color: black;
+  }
+
+  .link-kuning {
+      color: #fee50f !important;
+  }
+
+  .link-kuning:hover {
+      color: #e6cf00 !important;
+      text-decoration: underline;
+  }
+    </style>
+</style>
     
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">

@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Exports\PesertaTemplateExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,3 +33,8 @@ Route::post('/peserta', [App\Http\Controllers\PesertaController::class, 'store']
 Route::get('/peserta/{id}/edit', [App\Http\Controllers\PesertaController::class, 'edit'])->name('peserta.edit');
 Route::put('/peserta/{id}', [App\Http\Controllers\PesertaController::class, 'update'])->name('peserta.update');
 Route::delete('/peserta/{id}', [App\Http\Controllers\PesertaController::class, 'destroy'])->name('peserta.destroy');
+Route::post('/peserta/import', [App\Http\Controllers\PesertaController::class, 'import'])->name('peserta.import');
+Route::get('/template/peserta', function () {
+    return Excel::download(new PesertaTemplateExport, 'template_peserta.xlsx');
+})->name('template.peserta.download');
+

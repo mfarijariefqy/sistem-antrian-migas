@@ -2,20 +2,69 @@
 
 @section('content')
 <div class="container">
-    <h3>Data Peserta</h3>
-    <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#createModal">Tambah Peserta</button>
+@if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
 
-    <table class="table table-bordered" id="pesertaTable">
-        <thead>
-            <tr>
-                <th>Nama</th>
-                <th>Email</th>
-                <th>Alamat</th>
-                <th>No HP</th>
-                <th>Aksi</th>
-            </tr>
-        </thead>
-    </table>
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+<h3 class="mb-4">Data Peserta</h3>
+
+<div class="d-flex justify-content-between mb-3">
+    <button class="btn btn-kuning" data-toggle="modal" data-target="#createModal">Tambah Peserta</button>
+    <div>
+    <button id="startSlide" class="btn btn-kuning btn-sm" aria-label="Start">
+        <i class="fas fa-play"></i>
+    </button>
+    <button id="stopSlide" class="btn btn-kuning btn-sm" aria-label="Stop">
+        <i class="fas fa-stop"></i>
+    </button>
+
+    </div>
+</div>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <form action="{{ route('peserta.import') }}" method="POST" enctype="multipart/form-data" class="form-inline mb-0">
+        @csrf
+        <div class="form-group mr-2 mb-0">
+            <label for="file" class="mr-2 mb-0">Upload Excel:</label>
+            <input type="file" name="file" class="form-control" required accept=".xlsx, .xls">
+        </div>
+        <button type="submit" class="btn btn-kuning">Import</button>
+    </form>
+
+    <a href="{{ route('template.peserta.download') }}" class="btn btn-kuning">
+        <i class="fas fa-download"></i> Download Template Excel
+    </a>
+</div>
+
+
+
+
+<table class="table table-bordered" id="pesertaTable">
+    <thead>
+        <tr>
+            <th>Nama</th>
+            <th>Email</th>
+            <th>Alamat</th>
+            <th>No HP</th>
+            <th>Aksi</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Data will be populated here -->
+    </tbody>
+</table>
+
 </div>
 
 <!-- Modal Create -->
@@ -100,6 +149,7 @@
 <script>
     // Load data ke dalam modal edit
     $(document).ready(function () {
+        
         $(document).on('click', '.btn-edit', function () {
             let id = $(this).data('id');
             console.log("Peserta ID: " + id);  // Debug ID peserta
@@ -129,25 +179,45 @@
                 { data: 'address', name: 'address' },
                 { data: 'no_hp', name: 'no_hp' },
                 { data: 'aksi', name: 'aksi', orderable: false, searchable: false }
-            ]
+            ],
+            responsive: true  // Mengaktifkan responsivitas
         });
+        
+        // Variabel untuk interval
+        let intervalId = null;
+        let currentPage = 0;
 
-       // Set interval untuk pindah halaman setiap 10 detik
-        var currentPage = 0;
-
-        table.on('draw', function () {
-            // Mengambil info halaman dari DataTable
-            var pageLength = table.page.info().length; // Jumlah data per halaman
-            var totalPages = Math.ceil(table.page.info().recordsTotal / pageLength); // Total halaman
-
-            // Menentukan halaman berikutnya setiap 10 detik
-            setInterval(function() {
-                currentPage = (currentPage + 1) % totalPages; // Menghitung halaman berikutnya
-                table.page(currentPage).draw('page'); // Pindah ke halaman berikutnya
+        // Fungsi untuk mulai slideshow
+        function startSlide() {
+            stopSlide(); // pastikan tidak double
+            intervalId = setInterval(function () {
+                let pageInfo = table.page.info();
+                currentPage = (currentPage + 1) % pageInfo.pages;
+                table.page(currentPage).draw('page');
             }, 10000); // 10 detik
+        }
+
+        // Fungsi untuk stop slideshow
+        function stopSlide() {
+            if (intervalId) {
+                clearInterval(intervalId);
+                intervalId = null;
+            }
+        }
+        startSlide();
+        // Event listener untuk tombol
+        $('#startSlide').on('click', function () {
+            startSlide();
         });
 
+        $('#stopSlide').on('click', function () {
+            stopSlide();
+        });
         
     });
+
+    
+
+    
 </script>
 @endpush
